@@ -23,7 +23,7 @@ public class HabitDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         final String SQL_CREATE_HABIT_TABLE = "CREATE TABLE " + HabitContract.HabitEntry.TABLE_NAME + " (" +
-                HabitContract.HabitEntry.ID + " INTEGER PRIMARY KEY," +
+                HabitContract.HabitEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 HabitContract.HabitEntry.COLUMN_NAME+ " TEXT UNIQUE NOT NULL, " +
                 HabitContract.HabitEntry.COLUMN_LOCATION + " TEXT NOT NULL, " +
                 HabitContract.HabitEntry.COLUMN_HABIT + " TEXT NOT NULL, " +
@@ -44,7 +44,6 @@ public class HabitDbHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(HabitContract.HabitEntry.ID, id);
         contentValues.put(HabitContract.HabitEntry.COLUMN_NAME, name);
         contentValues.put(HabitContract.HabitEntry.COLUMN_LOCATION, location);
         contentValues.put(HabitContract.HabitEntry.COLUMN_HABIT, habit);
@@ -56,8 +55,14 @@ public class HabitDbHelper extends SQLiteOpenHelper {
     // Get data from the table
     public Cursor getData(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor result = db.rawQuery("SELECT * from " + HabitContract.HabitEntry.TABLE_NAME +
-                " WHERE name=" + name, null);
+        String[] ALL_COLUMNS = {
+                HabitContract.HabitEntry.COLUMN_ID,
+                HabitContract.HabitEntry.COLUMN_NAME,
+                HabitContract.HabitEntry.COLUMN_LOCATION,
+                HabitContract.HabitEntry.COLUMN_HABIT,
+                HabitContract.HabitEntry.COLUMN_DATE  };
+        Cursor result = db.query(HabitContract.HabitEntry.TABLE_NAME, ALL_COLUMNS,
+                null, null, null, null, null);
         db.close();
         return result;
     }
@@ -77,7 +82,6 @@ public class HabitDbHelper extends SQLiteOpenHelper {
     public void updateData(int id, String name, String location, String habit, int date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(HabitContract.HabitEntry.ID, id);
         contentValues.put(HabitContract.HabitEntry.COLUMN_NAME, name);
         contentValues.put(HabitContract.HabitEntry.COLUMN_LOCATION, location);
         contentValues.put(HabitContract.HabitEntry.COLUMN_HABIT, habit);

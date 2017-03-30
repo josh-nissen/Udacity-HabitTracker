@@ -13,7 +13,7 @@ public class HabitContract {
 
         public static final String TABLE_NAME = "habit";
 
-        public static final String ID = "id";
+        public static final String COLUMN_ID = "id";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_HABIT = "habit";
         public static final String COLUMN_LOCATION = "location";
